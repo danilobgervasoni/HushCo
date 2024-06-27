@@ -17,4 +17,3 @@ struct User: Codable {
     let linkedin: String
     let github: String
 }
-

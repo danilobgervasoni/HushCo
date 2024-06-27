@@ -60,14 +60,14 @@ class RegistrationViewController: UIViewController {
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(nameTextField)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(phoneTextField)
-        view.addSubview(jobTextField)
-        view.addSubview(linkedinTextField)
-        view.addSubview(githubTextField)
-        view.addSubview(registerButton)
+        let stackView = UIStackView(arrangedSubviews: [nameTextField, emailTextField, passwordTextField, phoneTextField, jobTextField, linkedinTextField, githubTextField, registerButton])
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        
     }
     
     private func setupConstraints() {
@@ -105,39 +105,40 @@ class RegistrationViewController: UIViewController {
         ])
     }
     
-    @objc private func registerTapped() {
-        let id = UUID().uuidString
-        let name = nameTextField.text ?? ""
-        let email = emailTextField.text ?? ""
-        let password = passwordTextField.text ?? ""
-        let phone = phoneTextField.text ?? ""
-        let job = jobTextField.text ?? ""
-        let linkedin = linkedinTextField.text ?? ""
-        let github = githubTextField.text ?? ""
+    @objc func registerTapped() {
+        guard let name = nameTextField.text, !name.isEmpty,
+              let email = emailTextField.text, !email.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty,
+              let phone = phoneTextField.text, !phone.isEmpty,
+              let job = jobTextField.text, !job.isEmpty,
+              let linkedin = linkedinTextField.text, !linkedin.isEmpty,
+              let github = githubTextField.text, !github.isEmpty else {
+            // Show error message
+            return
+        }
         
-        let user = User(id: id, name: name, email: email, password: password, phone: phone, job: job, linkedin: linkedin, github: github)
-        saveUserToFile(user: user)
-    }
-    
-    private func saveUserToFile(user: User) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(user) {
-            if let json = String(data: encoded, encoding: .utf8) {
-                print(json)
-                let filename = getDocumentsDirectory().appendingPathComponent("user.json")
-                do {
-                    try json.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-                } catch {
-                    print("Failed to write JSON data: \(error.localizedDescription)")
+        let newUser = User(id: UUID().uuidString,
+                           name: name,
+                           email: email,
+                           password: password,
+                           phone: phone,
+                           job: job,
+                           linkedin: linkedin,
+                           github: github)
+        
+        NetworkManager.shared.registerUser(newUser) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let user):
+                    print("User registered: \(user)")
+                    // Atualize a UI ou navegue para outra tela
+                case .failure(let error):
+                    print("Failed to register user: \(error)")
+                    // Mostre um alerta de erro
+                    
+                    
                 }
             }
         }
     }
-    
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
 }
-
-
