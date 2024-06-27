@@ -25,6 +25,7 @@ class LoginViewController: UIViewController {
     let errorMessageLabel = UILabel()
     
     weak var delegate: LoginViewControllerDelegate?
+    var onboardingViewController: OnboardingContainerViewController?
     
     var username: String? {
         return loginView.usernameTextField.text
@@ -150,5 +151,16 @@ extension LoginViewController {
     private func configureView(withMessage message: String) {
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
+    }
+}
+
+extension LoginViewController: LoginViewControllerDelegate {
+    func didLogin() {
+        if LocalState.hasOnboarded {
+            // Aqui você pode adicionar a navegação para a tela de cadastro
+            let registrationViewController = RegistrationViewController() // Substitua pelo nome da sua tela de cadastro
+            navigationController?.pushViewController(registrationViewController, animated: true)
+        }
+        
     }
 }

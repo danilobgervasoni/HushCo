@@ -16,6 +16,8 @@
 		7CED856D2C2C8FCB00B3CA3B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED856C2C2C8FCB00B3CA3B /* OnboardingViewController.swift */; };
 		7CED85702C2C938900B3CA3B /* LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED856F2C2C938900B3CA3B /* LocalState.swift */; };
 		7CED85722C2C941C00B3CA3B /* DummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED85712C2C941C00B3CA3B /* DummyViewController.swift */; };
+		7CED857C2C2CAB7B00B3CA3B /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED857B2C2CAB7B00B3CA3B /* RegistrationViewController.swift */; };
+		7CED857E2C2CABD200B3CA3B /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED857D2C2CABD200B3CA3B /* Users.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		7CED856C2C2C8FCB00B3CA3B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		7CED856F2C2C938900B3CA3B /* LocalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalState.swift; sourceTree = "<group>"; };
 		7CED85712C2C941C00B3CA3B /* DummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewController.swift; sourceTree = "<group>"; };
+		7CED857B2C2CAB7B00B3CA3B /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		7CED857D2C2CABD200B3CA3B /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,7 @@
 				71A0F7C326FD2B75008EAFD8 /* AppDelegate.swift */,
 				71A0F7D926FD2C91008EAFD8 /* LoginView */,
 				7CED85692C2C8F8500B3CA3B /* Onboarding */,
+				7CED857A2C2CAB6F00B3CA3B /* Registration */,
 				7CED856E2C2C937900B3CA3B /* Util */,
 				71A0F7DA26FD327C008EAFD8 /* Files */,
 			);
@@ -106,6 +111,15 @@
 				7CED856F2C2C938900B3CA3B /* LocalState.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		7CED857A2C2CAB6F00B3CA3B /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				7CED857B2C2CAB7B00B3CA3B /* RegistrationViewController.swift */,
+				7CED857D2C2CABD200B3CA3B /* Users.swift */,
+			);
+			path = Registration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,7 +193,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CED85722C2C941C00B3CA3B /* DummyViewController.swift in Sources */,
+				7CED857E2C2CABD200B3CA3B /* Users.swift in Sources */,
 				71A0F7C826FD2B75008EAFD8 /* LoginViewController.swift in Sources */,
+				7CED857C2C2CAB7B00B3CA3B /* RegistrationViewController.swift in Sources */,
 				7CED85702C2C938900B3CA3B /* LocalState.swift in Sources */,
 				71A0F7C426FD2B75008EAFD8 /* AppDelegate.swift in Sources */,
 				7CED856D2C2C8FCB00B3CA3B /* OnboardingViewController.swift in Sources */,
