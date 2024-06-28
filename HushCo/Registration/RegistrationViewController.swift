@@ -7,7 +7,12 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController {
+
+class RegistrationViewController: UIViewController, OnboardingContainerViewControllerDelegate {
+    func didFinishOnboarding() {
+
+    }
+    
     
     let nameTextField = UITextField()
     let emailTextField = UITextField()
@@ -17,12 +22,23 @@ class RegistrationViewController: UIViewController {
     let linkedinTextField = UITextField()
     let githubTextField = UITextField()
     let registerButton = UIButton(type: .system)
+    let titleLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupViews()
         setupConstraints()
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func clearTextFields() {
     }
     
     private func setupViews() {
@@ -60,9 +76,17 @@ class RegistrationViewController: UIViewController {
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.text = "Registration"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textAlignment = .center
+        
+        view.addSubview(titleLabel)
+        
+        
         let stackView = UIStackView(arrangedSubviews: [nameTextField, emailTextField, passwordTextField, phoneTextField, jobTextField, linkedinTextField, githubTextField, registerButton])
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = 5
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
@@ -72,7 +96,7 @@ class RegistrationViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -101,7 +125,13 @@ class RegistrationViewController: UIViewController {
             githubTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             registerButton.topAnchor.constraint(equalTo: githubTextField.bottomAnchor, constant: 30),
-            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            
+            
         ])
     }
     
@@ -126,19 +156,40 @@ class RegistrationViewController: UIViewController {
                            linkedin: linkedin,
                            github: github)
         
+        
         NetworkManager.shared.registerUser(newUser) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
                     print("User registered: \(user)")
-                    // Atualize a UI ou navegue para outra tela
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Sucess", message: "New user successfully registered!")
+                        self.nameTextField.clear()
+                        self.emailTextField.clear()
+                        self.passwordTextField.clear()
+                        self.phoneTextField.clear()
+                        self.jobTextField.clear()
+                        self.linkedinTextField.clear()
+                        self.githubTextField.clear()
+                        }
+                    
+                    
                 case .failure(let error):
                     print("Failed to register user: \(error)")
                     // Mostre um alerta de erro
                     
                     
                 }
+                
             }
         }
     }
 }
+
+extension UITextField {
+    func clear() {
+        self.text = ""
+    }
+}
+
+

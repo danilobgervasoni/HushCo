@@ -44,6 +44,7 @@ class OnboardingContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         setup()
         style()
         layout()
@@ -73,7 +74,7 @@ class OnboardingContainerViewController: UIViewController {
     private func style() {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.setTitle("Close", for: [])
-        closeButton.addTarget(self, action: #selector(closeTapped), for: .primaryActionTriggered)
+        closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .primaryActionTriggered)
     }
     
     private func layout() {
@@ -84,7 +85,9 @@ class OnboardingContainerViewController: UIViewController {
             closeButton.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 2)
         ])
     }
+    
 }
+
 
 // MARK: - UIPageViewControllerDataSource
 extension OnboardingContainerViewController: UIPageViewControllerDataSource {
@@ -121,6 +124,8 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
 // MARK: Actions
 extension OnboardingContainerViewController {
     @objc func closeTapped(_ sender: UIButton) {
-        // TODO
+        self.delegate?.didFinishOnboarding()
     }
 }
+
+

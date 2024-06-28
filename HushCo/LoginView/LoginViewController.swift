@@ -16,6 +16,8 @@ protocol LoginViewControllerDelegate: AnyObject {
 }
 
 class LoginViewController: UIViewController {
+    
+    weak var delegate: LoginViewControllerDelegate?
 
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
@@ -24,7 +26,6 @@ class LoginViewController: UIViewController {
     let signInButton = UIButton(type: .system)
     let errorMessageLabel = UILabel()
     
-    weak var delegate: LoginViewControllerDelegate?
     var onboardingViewController: OnboardingContainerViewController?
     
     var username: String? {
@@ -136,13 +137,13 @@ extension LoginViewController {
             return
         }
 
-    //    if username.isEmpty || password.isEmpty {
-    //        configureView(withMessage: "Username / password cannot be blank")
-     //       return
-     //   }
+       if username.isEmpty || password.isEmpty {
+            configureView(withMessage: "Username / password cannot be blank")
+            return
+        }
         
-        if username == "" && password == "" {
-            signInButton.configuration?.showsActivityIndicator = true
+        if username == "Danilo" && password == "123" {
+            delegate?.didLogin()
         } else {
             configureView(withMessage: "Incorrect username / password")
         }
@@ -157,9 +158,13 @@ extension LoginViewController {
 extension LoginViewController: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            // Aqui você pode adicionar a navegação para a tela de cadastro
-            let registrationViewController = RegistrationViewController() // Substitua pelo nome da sua tela de cadastro
+            let registrationViewController = RegistrationViewController()
             navigationController?.pushViewController(registrationViewController, animated: true)
+        }  else {
+            // Exemplo de chamada ao setRootViewController
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let onboardingViewController = OnboardingContainerViewController()
+            appDelegate?.setRootViewController(onboardingViewController)
         }
         
     }

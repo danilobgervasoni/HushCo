@@ -15,26 +15,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let loginViewController = LoginViewController()
     let onboardingViewController = OnboardingContainerViewController()
-    let dummyViewController = DummyViewController()
+//    let dummyViewController = DummyViewController()
+    let registrationViewController = RegistrationViewController()
+    
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.makeKeyAndVisible()
-        window?.backgroundColor = .systemBackground
         
         loginViewController.delegate = self
-        onboardingViewController.delegate = self
-        dummyViewController.logoutDelegate = self
+        setRootViewController(loginViewController)
+        
+        return true
+//        window?.rootViewController = navigationController
+//        window?.makeKeyAndVisible()
+//        window?.backgroundColor = .systemBackground
+        
+//        loginViewController.delegate = self
+//        onboardingViewController.delegate = self
+//        registrationViewController.delegate = self
+//        dummyViewController.logoutDelegate = self
         
 //        window?.rootViewController = loginViewController
 //        window?.rootViewController = onboardingViewController
 //        window?.rootViewController = AccountSummaryViewController()
 //        window?.rootViewController = OnboardingContainerViewController()
-        window?.rootViewController = RegistrationViewController()
+//        window?.rootViewController = RegistrationViewController()
 
-
-        return true
+        
     }
 }
 
@@ -59,7 +67,7 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            setRootViewController(dummyViewController)
+            setRootViewController(registrationViewController)
         } else {
             setRootViewController(onboardingViewController)
         }
@@ -69,12 +77,15 @@ extension AppDelegate: LoginViewControllerDelegate {
 extension AppDelegate: OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {
         LocalState.hasOnboarded = true
-        setRootViewController(dummyViewController)
+        setRootViewController(registrationViewController)
     }
 }
 
 extension AppDelegate: LogoutDelegate {
     func didLogout() {
+        let loginViewController = LoginViewController()
         setRootViewController(loginViewController)
     }
 }
+
+
