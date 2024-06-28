@@ -13,7 +13,6 @@ class RegistrationViewController: UIViewController, OnboardingContainerViewContr
 
     }
     
-    
     let nameTextField = UITextField()
     let emailTextField = UITextField()
     let passwordTextField = UITextField()
@@ -24,11 +23,20 @@ class RegistrationViewController: UIViewController, OnboardingContainerViewContr
     let registerButton = UIButton(type: .system)
     let titleLabel = UILabel()
     
+    let logoutButton = UIButton(type: .system)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupViews()
         setupConstraints()
+        
+        func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        }
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
     }
     
     func showAlert(title: String, message: String) {
@@ -81,7 +89,18 @@ class RegistrationViewController: UIViewController, OnboardingContainerViewContr
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titleLabel.textAlignment = .center
         
+        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        view.addSubview(logoutButton)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+        ])
+        
         view.addSubview(titleLabel)
+        view.addSubview(logoutButton)
         
         
         let stackView = UIStackView(arrangedSubviews: [nameTextField, emailTextField, passwordTextField, phoneTextField, jobTextField, linkedinTextField, githubTextField, registerButton])
@@ -135,6 +154,13 @@ class RegistrationViewController: UIViewController, OnboardingContainerViewContr
         ])
     }
     
+    @objc func logoutButtonTapped() {
+        UserDefaults.standard.removeObject(forKey: "userToken")
+        let loginViewController = LoginViewController()
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        appDelegate?.setRootViewController(loginViewController)
+    }
+    
     @objc func registerTapped() {
         guard let name = nameTextField.text, !name.isEmpty,
               let email = emailTextField.text, !email.isEmpty,
@@ -185,6 +211,8 @@ class RegistrationViewController: UIViewController, OnboardingContainerViewContr
         }
     }
 }
+
+
 
 extension UITextField {
     func clear() {

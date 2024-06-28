@@ -23,8 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
+        let loginViewController = LoginViewController()
         loginViewController.delegate = self
         setRootViewController(loginViewController)
+        window?.makeKeyAndVisible()
         //window?.rootViewController = RegistrationViewController()
         
         return true
@@ -53,8 +55,11 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
+            let registrationViewController = RegistrationViewController()
             setRootViewController(registrationViewController)
         } else {
+            let onboardingViewController = OnboardingContainerViewController()
+            onboardingViewController.delegate = self
             setRootViewController(onboardingViewController)
         }
     }
@@ -63,6 +68,7 @@ extension AppDelegate: LoginViewControllerDelegate {
 extension AppDelegate: OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {
         LocalState.hasOnboarded = true
+        let registrationViewController = RegistrationViewController()
         setRootViewController(registrationViewController)
     }
 }
@@ -70,6 +76,7 @@ extension AppDelegate: OnboardingContainerViewControllerDelegate {
 extension AppDelegate: LogoutDelegate {
     func didLogout() {
         let loginViewController = LoginViewController()
+        loginViewController.delegate = self
         setRootViewController(loginViewController)
     }
 }
