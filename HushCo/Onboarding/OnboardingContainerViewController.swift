@@ -124,7 +124,12 @@ extension OnboardingContainerViewController: UIPageViewControllerDataSource {
 // MARK: Actions
 extension OnboardingContainerViewController {
     @objc func closeTapped(_ sender: UIButton) {
+        print("Close button tapped")
+        let registrationViewController = RegistrationViewController()
+        registrationViewController.modalPresentationStyle = .fullScreen
+            present(registrationViewController, animated: true, completion: nil)
         self.delegate?.didFinishOnboarding()
+        
     }
 }
 

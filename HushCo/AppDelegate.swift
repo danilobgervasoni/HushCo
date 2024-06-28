@@ -25,24 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         loginViewController.delegate = self
         setRootViewController(loginViewController)
+        //window?.rootViewController = RegistrationViewController()
         
         return true
-//        window?.rootViewController = navigationController
-//        window?.makeKeyAndVisible()
-//        window?.backgroundColor = .systemBackground
-        
-//        loginViewController.delegate = self
-//        onboardingViewController.delegate = self
-//        registrationViewController.delegate = self
-//        dummyViewController.logoutDelegate = self
-        
-//        window?.rootViewController = loginViewController
-//        window?.rootViewController = onboardingViewController
-//        window?.rootViewController = AccountSummaryViewController()
-//        window?.rootViewController = OnboardingContainerViewController()
-//        window?.rootViewController = RegistrationViewController()
 
-        
     }
 }
 

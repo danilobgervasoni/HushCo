@@ -157,7 +157,7 @@ extension LoginViewController {
 
 extension LoginViewController: LoginViewControllerDelegate {
     func didLogin() {
-        if LocalState.hasOnboarded {
+        if LocalState.hasOnboarded == true {
             let registrationViewController = RegistrationViewController()
             navigationController?.pushViewController(registrationViewController, animated: true)
         }  else {
