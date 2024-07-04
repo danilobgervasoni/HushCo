@@ -22,14 +22,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
+        let splashViewController = SplashViewController()
+                window?.rootViewController = splashViewController
+                window?.makeKeyAndVisible()
+                return true
         
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = self
-        setRootViewController(loginViewController)
-        window?.makeKeyAndVisible()
-        //window?.rootViewController = RegistrationViewController()
+        //registrationViewController.logoutDelegate = self
         
-        return true
+//        let loginViewController = LoginViewController()
+//        loginViewController.delegate = self
+//        setRootViewController(loginViewController)
+//        window?.makeKeyAndVisible()
+//        //window?.rootViewController = RegistrationViewController()
+        
+       // return true
 
     }
 }

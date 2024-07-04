@@ -20,6 +20,7 @@
 		7CED857E2C2CABD200B3CA3B /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED857D2C2CABD200B3CA3B /* Users.swift */; };
 		7CED85802C2DDC3700B3CA3B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */; };
 		7CED85822C2E44D700B3CA3B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED85812C2E44D700B3CA3B /* MainViewController.swift */; };
+		7CF820A92C3715F2008A81AE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF820A82C3715F2008A81AE /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		7CED857D2C2CABD200B3CA3B /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7CED85812C2E44D700B3CA3B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		7CF820A82C3715F2008A81AE /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			children = (
 				71A0F7C326FD2B75008EAFD8 /* AppDelegate.swift */,
 				7CED85812C2E44D700B3CA3B /* MainViewController.swift */,
+				7CF820A72C3715E7008A81AE /* Opening */,
 				71A0F7D926FD2C91008EAFD8 /* LoginView */,
 				7CED85692C2C8F8500B3CA3B /* Onboarding */,
 				7CED857A2C2CAB6F00B3CA3B /* Registration */,
@@ -126,6 +129,14 @@
 				7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		7CF820A72C3715E7008A81AE /* Opening */ = {
+			isa = PBXGroup;
+			children = (
+				7CF820A82C3715F2008A81AE /* SplashViewController.swift */,
+			);
+			path = Opening;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 				7CED85722C2C941C00B3CA3B /* DummyViewController.swift in Sources */,
 				7CED85822C2E44D700B3CA3B /* MainViewController.swift in Sources */,
 				7CED857E2C2CABD200B3CA3B /* Users.swift in Sources */,
+				7CF820A92C3715F2008A81AE /* SplashViewController.swift in Sources */,
 				7CED85802C2DDC3700B3CA3B /* NetworkManager.swift in Sources */,
 				71A0F7C826FD2B75008EAFD8 /* LoginViewController.swift in Sources */,
 				7CED857C2C2CAB7B00B3CA3B /* RegistrationViewController.swift in Sources */,

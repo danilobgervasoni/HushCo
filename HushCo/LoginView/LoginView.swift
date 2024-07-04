@@ -10,6 +10,7 @@ import UIKit
 
 class LoginView: UIView {
     
+    let logoImageView = UIImageView(image: UIImage(named: "HushCo"))
     let stackView = UIStackView()
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
@@ -37,6 +38,9 @@ extension LoginView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .secondarySystemBackground
         
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
@@ -58,19 +62,22 @@ extension LoginView {
     }
     
     private func layout() {
+        stackView.addArrangedSubview(logoImageView)
         stackView.addArrangedSubview(usernameTextField)
         stackView.addArrangedSubview(dividerView)
         stackView.addArrangedSubview(passwordTextField)
+        
 
         addSubview(stackView)
         
         // StackView
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
-            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 1),
-            bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: 1)
+            stackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: -20),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: -20),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: -20),
+            bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: -20)
         ])
+        
         
         dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }

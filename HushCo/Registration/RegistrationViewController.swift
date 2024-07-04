@@ -25,6 +25,8 @@ class RegistrationViewController: UIViewController, OnboardingContainerViewContr
     
     let logoutButton = UIButton(type: .system)
     
+    weak var logoutDelegate: LogoutDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground

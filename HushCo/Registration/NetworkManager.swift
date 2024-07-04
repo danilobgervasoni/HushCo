@@ -9,7 +9,7 @@ import Foundation
 
 class NetworkManager {
     static let shared = NetworkManager()
-    private let baseURL = "http://localhost:3001/registration"
+    private let baseURL = "http://localhost:3002/users"
     
     private init() {}
     
