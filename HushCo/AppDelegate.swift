@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Bankey
+//  HushCo
 //
-//  Created by jrasmusson on 2021-09-23.
+//  Created by Danilo Gervasoni on 27/06/24.
 //
 
 import UIKit
@@ -13,31 +13,36 @@ let appColor: UIColor = .systemTeal
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    let loginViewController = LoginViewController()
-    let onboardingViewController = OnboardingContainerViewController()
-//    let dummyViewController = DummyViewController()
-    let registrationViewController = RegistrationViewController()
-    
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let splashViewController = SplashViewController()
-                window?.rootViewController = splashViewController
-                window?.makeKeyAndVisible()
-                return true
+        window?.backgroundColor = .white
         
-        //registrationViewController.logoutDelegate = self
+        showSplashScreen()
         
-//        let loginViewController = LoginViewController()
-//        loginViewController.delegate = self
-//        setRootViewController(loginViewController)
-//        window?.makeKeyAndVisible()
-//        //window?.rootViewController = RegistrationViewController()
+        return true
         
-       // return true
-
     }
+    
+    func showSplashScreen() {
+            let splashViewController = SplashViewController()
+            window?.rootViewController = splashViewController
+            window?.makeKeyAndVisible()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.showLoginScreen()
+        }
+        
+    }
+    
+    func showLoginScreen() {
+            let loginViewController = LoginViewController()
+            loginViewController.delegate = self
+            setRootViewController(loginViewController)
+            window?.rootViewController = loginViewController
+            window?.makeKeyAndVisible()
+        }
 }
 
 extension AppDelegate {
@@ -47,7 +52,7 @@ extension AppDelegate {
             self.window?.makeKeyAndVisible()
             return
         }
-
+        
         window.rootViewController = vc
         window.makeKeyAndVisible()
         UIView.transition(with: window,
@@ -58,33 +63,97 @@ extension AppDelegate {
     }
 }
 
+
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            let registrationViewController = RegistrationViewController()
-            setRootViewController(registrationViewController)
+            showRegistrationScreen()
         } else {
-            let onboardingViewController = OnboardingContainerViewController()
-            onboardingViewController.delegate = self
-            setRootViewController(onboardingViewController)
+            showOnboardingScreen()
         }
+    }
+    
+    private func showOnboardingScreen() {
+        let onboardingViewController = OnboardingContainerViewController()
+        onboardingViewController.delegate = self
+        setRootViewController(onboardingViewController)
+    }
+    
+    
+    private func showRegistrationScreen() {
+        let registrationViewController = RegistrationViewController()
+        setRootViewController(registrationViewController)
     }
 }
 
 extension AppDelegate: OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {
         LocalState.hasOnboarded = true
-        let registrationViewController = RegistrationViewController()
-        setRootViewController(registrationViewController)
+        showRegistrationScreen()
+    }
+}
+
+extension AppDelegate: RegistrationViewControllerDelegate {
+    func didlogin() {
+        LocalState.hasOnboarded = true
+        showRegistrationScreen()
     }
 }
 
 extension AppDelegate: LogoutDelegate {
     func didLogout() {
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = self
-        setRootViewController(loginViewController)
+        showLoginScreen()
     }
 }
+
+//extension AppDelegate {
+//    func setRootViewController(_ vc: UIViewController, animated: Bool = true) {
+//        guard animated, let window = self.window else {
+//            self.window?.rootViewController = vc
+//            self.window?.makeKeyAndVisible()
+//            return
+//        }
+//
+//        window.rootViewController = vc
+//        window.makeKeyAndVisible()
+//        UIView.transition(with: window,
+//                          duration: 0.3,
+//                          options: .transitionCrossDissolve,
+//                          animations: nil,
+//                          completion: nil)
+//    }
+//}
+
+
+
+
+//extension AppDelegate: LoginViewControllerDelegate {
+//    func didLogin() {
+//        if LocalState.hasOnboarded {
+//            let registrationViewController = RegistrationViewController()
+//            setRootViewController(registrationViewController)
+//        } else {
+//            let onboardingViewController = OnboardingContainerViewController()
+//            onboardingViewController.delegate = self
+//            setRootViewController(onboardingViewController)
+//        }
+//    }
+//}
+
+//extension AppDelegate: OnboardingContainerViewControllerDelegate {
+//    func didFinishOnboarding() {
+//        LocalState.hasOnboarded = true
+//        let registrationViewController = RegistrationViewController()
+//        setRootViewController(registrationViewController)
+//    }
+//}
+//
+//extension AppDelegate: LogoutDelegate {
+//    func didLogout() {
+//        let loginViewController = LoginViewController()
+//        loginViewController.delegate = self
+//        setRootViewController(loginViewController)
+//    }
+//}
 
 

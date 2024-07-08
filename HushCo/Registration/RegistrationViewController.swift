@@ -7,6 +7,9 @@
 
 import UIKit
 
+protocol RegistrationViewControllerDelegate: AnyObject {
+    func didFinishOnboarding()
+}
 
 class RegistrationViewController: UIViewController, OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {

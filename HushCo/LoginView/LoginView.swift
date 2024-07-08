@@ -1,8 +1,8 @@
 //
 //  LoginView.swift
-//  Bankey
+//  HushCo
 //
-//  Created by jrasmusson on 2021-09-23.
+//  Created by Danilo Gervasoni on 27/06/24.
 //
 
 import Foundation
@@ -15,13 +15,16 @@ class LoginView: UIView {
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
     let dividerView = UIView()
+    let registerButton = UIButton(type: .system)
+    let signInButton = UIButton(type: .system)
+    let errorMessageLabel = UILabel()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         style()
         layout()
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -39,7 +42,7 @@ extension LoginView {
         backgroundColor = .secondarySystemBackground
         
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        logoImageView.contentMode = .scaleAspectFit
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -56,8 +59,29 @@ extension LoginView {
         passwordTextField.placeholder = "Password"
         passwordTextField.isSecureTextEntry = true
         passwordTextField.delegate = self
+        
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButton.configuration = .filled()
+        signInButton.configuration?.imagePadding = 8
+        signInButton.setTitle("Login", for: [])
+        signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        signInButton.layer.cornerRadius = 8
+        
+        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        registerButton.configuration = .filled()
+        registerButton.configuration?.imagePadding = 8
+        registerButton.setTitle("Register", for: [])
+        registerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        registerButton.tintColor = .systemGray
+        registerButton.layer.cornerRadius = 8
+        
+        errorMessageLabel.translatesAutoresizingMaskIntoConstraints = false
+        errorMessageLabel.textAlignment = .center
+        errorMessageLabel.textColor = .systemRed
+        errorMessageLabel.numberOfLines = 0
+        errorMessageLabel.isHidden = true
                 
-        layer.cornerRadius = 5
+        layer.cornerRadius = 8
         clipsToBounds = true
     }
     
@@ -66,16 +90,24 @@ extension LoginView {
         stackView.addArrangedSubview(usernameTextField)
         stackView.addArrangedSubview(dividerView)
         stackView.addArrangedSubview(passwordTextField)
+        stackView.addArrangedSubview(signInButton)
+        stackView.addArrangedSubview(registerButton)
+        stackView.addArrangedSubview(errorMessageLabel)
         
 
         addSubview(stackView)
         
-        // StackView
+         //StackView
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: -20),
-            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: -20),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: -20),
-            bottomAnchor.constraint(equalToSystemSpacingBelow: stackView.bottomAnchor, multiplier: -20)
+            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            logoImageView.heightAnchor.constraint(equalToConstant: 100),
+            logoImageView.widthAnchor.constraint(equalTo: logoImageView.heightAnchor)
         ])
         
         
@@ -98,4 +130,7 @@ extension LoginView: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
     }
+    
+
 }
+
