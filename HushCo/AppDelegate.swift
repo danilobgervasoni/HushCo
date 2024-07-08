@@ -67,7 +67,7 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            showRegistrationScreen()
+            showMainScreen()
         } else {
             showOnboardingScreen()
         }
@@ -79,24 +79,29 @@ extension AppDelegate: LoginViewControllerDelegate {
         setRootViewController(onboardingViewController)
     }
     
-    
-    private func showRegistrationScreen() {
-        let registrationViewController = RegistrationViewController()
-        setRootViewController(registrationViewController)
+    private func showMainScreen() {
+                let mainViewController = MainViewController()
+                setRootViewController(mainViewController)
     }
+    
+    
+//    private func showRegistrationScreen() {
+//        let registrationViewController = RegistrationViewController()
+//        setRootViewController(registrationViewController)
+//    }
 }
 
 extension AppDelegate: OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {
         LocalState.hasOnboarded = true
-        showRegistrationScreen()
+        showMainScreen()
     }
 }
 
 extension AppDelegate: RegistrationViewControllerDelegate {
     func didlogin() {
         LocalState.hasOnboarded = true
-        showRegistrationScreen()
+        showMainScreen()
     }
 }
 

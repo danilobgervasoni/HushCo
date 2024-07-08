@@ -22,6 +22,7 @@ class SplashViewController: UIViewController {
         view.backgroundColor = .white
         setupLayout()
         animateLogo()
+        showLoginScreen()
     }
     
     func setupLayout() {

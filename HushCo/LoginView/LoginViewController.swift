@@ -70,10 +70,10 @@ extension LoginViewController {
 // MARK: Actions
 extension LoginViewController {
     @objc func registerButtonTapped(sender: UIButton) {
-        loginView.errorMessageLabel.isHidden = true
-        login()
-        
+        let registrationVC = RegistrationViewController()
+        navigationController?.pushViewController(registrationVC, animated: true)
     }
+
     
     @objc func signInTapped(sender: UIButton) {
         loginView.errorMessageLabel.isHidden = true
