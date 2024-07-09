@@ -66,6 +66,7 @@ extension LoginView {
         signInButton.setTitle("Login", for: [])
         signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         signInButton.layer.cornerRadius = 8
+        signInButton.tintColor = .orange
         
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         registerButton.configuration = .filled()

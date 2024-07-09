@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 let appColor: UIColor = .systemTeal
 
@@ -15,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
@@ -67,9 +70,12 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            showMainScreen()
+            let registrationViewController = RegistrationViewController()
+            setRootViewController(registrationViewController)
         } else {
-            showOnboardingScreen()
+            let onboardingViewController = OnboardingContainerViewController()
+            onboardingViewController.delegate = self
+            setRootViewController(onboardingViewController)
         }
     }
     

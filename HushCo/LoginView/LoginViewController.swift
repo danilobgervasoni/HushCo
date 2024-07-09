@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 protocol LogoutDelegate: AnyObject {
     func didLogout()
@@ -70,8 +71,9 @@ extension LoginViewController {
 // MARK: Actions
 extension LoginViewController {
     @objc func registerButtonTapped(sender: UIButton) {
-        let registrationVC = RegistrationViewController()
-        navigationController?.pushViewController(registrationVC, animated: true)
+        let registrationViewController = RegistrationViewController()
+        registrationViewController.modalPresentationStyle = .fullScreen
+        present(registrationViewController, animated: true, completion: nil)
     }
 
     
@@ -92,10 +94,17 @@ extension LoginViewController {
             return
         }
         
-        if username == "Danilo" && password == "123" {
-            delegate?.didLogin()
-        } else {
-            configureView(withMessage: "Incorrect username / password")
+        Auth.auth().signIn(withEmail: username, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                configureView(withMessage: "Username / password does not exist")
+                self.configureView(withMessage: error.localizedDescription)
+                return
+            }
+            
+            // Sucesso na autenticação
+            self.delegate?.didLogin()
         }
     }
     
