@@ -11,7 +11,7 @@ import Firebase
 let appColor: UIColor = .systemTeal
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MainViewControllerDelegate {
     
     var window: UIWindow?
         
@@ -70,31 +70,24 @@ extension AppDelegate {
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
         if LocalState.hasOnboarded {
-            let registrationViewController = RegistrationViewController()
-            setRootViewController(registrationViewController)
+            let mainViewController = MainViewController()
+            showMainScreen()
         } else {
-            let onboardingViewController = OnboardingContainerViewController()
-            onboardingViewController.delegate = self
-            setRootViewController(onboardingViewController)
+            showOnboardingScreen()
         }
     }
     
     private func showOnboardingScreen() {
         let onboardingViewController = OnboardingContainerViewController()
-        onboardingViewController.delegate = self
         setRootViewController(onboardingViewController)
     }
     
     private func showMainScreen() {
-                let mainViewController = MainViewController()
-                setRootViewController(mainViewController)
+        let mainViewController = MainViewController()
+        mainViewController.delegate = self
+        setRootViewController(mainViewController)
     }
     
-    
-//    private func showRegistrationScreen() {
-//        let registrationViewController = RegistrationViewController()
-//        setRootViewController(registrationViewController)
-//    }
 }
 
 extension AppDelegate: OnboardingContainerViewControllerDelegate {
@@ -105,9 +98,11 @@ extension AppDelegate: OnboardingContainerViewControllerDelegate {
 }
 
 extension AppDelegate: RegistrationViewControllerDelegate {
-    func didlogin() {
-        LocalState.hasOnboarded = true
-        showMainScreen()
+    func didRegister() {
+        DispatchQueue.main.async {
+            let onboardingViewController = OnboardingContainerViewController()
+            self.setRootViewController(onboardingViewController)
+        }
     }
 }
 
@@ -116,55 +111,3 @@ extension AppDelegate: LogoutDelegate {
         showLoginScreen()
     }
 }
-
-//extension AppDelegate {
-//    func setRootViewController(_ vc: UIViewController, animated: Bool = true) {
-//        guard animated, let window = self.window else {
-//            self.window?.rootViewController = vc
-//            self.window?.makeKeyAndVisible()
-//            return
-//        }
-//
-//        window.rootViewController = vc
-//        window.makeKeyAndVisible()
-//        UIView.transition(with: window,
-//                          duration: 0.3,
-//                          options: .transitionCrossDissolve,
-//                          animations: nil,
-//                          completion: nil)
-//    }
-//}
-
-
-
-
-//extension AppDelegate: LoginViewControllerDelegate {
-//    func didLogin() {
-//        if LocalState.hasOnboarded {
-//            let registrationViewController = RegistrationViewController()
-//            setRootViewController(registrationViewController)
-//        } else {
-//            let onboardingViewController = OnboardingContainerViewController()
-//            onboardingViewController.delegate = self
-//            setRootViewController(onboardingViewController)
-//        }
-//    }
-//}
-
-//extension AppDelegate: OnboardingContainerViewControllerDelegate {
-//    func didFinishOnboarding() {
-//        LocalState.hasOnboarded = true
-//        let registrationViewController = RegistrationViewController()
-//        setRootViewController(registrationViewController)
-//    }
-//}
-//
-//extension AppDelegate: LogoutDelegate {
-//    func didLogout() {
-//        let loginViewController = LoginViewController()
-//        loginViewController.delegate = self
-//        setRootViewController(loginViewController)
-//    }
-//}
-
-

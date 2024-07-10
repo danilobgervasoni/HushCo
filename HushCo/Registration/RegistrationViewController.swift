@@ -9,10 +9,13 @@ import UIKit
 import FirebaseAuth
 
 protocol RegistrationViewControllerDelegate: AnyObject {
-    func didLogin()
+    func didRegister()
 }
 
+
 class RegistrationViewController: UIViewController, UITextFieldDelegate {
+    
+    weak var delegate: RegistrationViewControllerDelegate?
     
     let nameTextField = UITextField()
     let nameErrorLabel = UILabel()
@@ -43,14 +46,18 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         
         setupUI()
         
+        configureTextFields()
+        configureErrorLabels()
+        
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         
         emailTextField.addTarget(self, action: #selector(emailTextFieldDidEndEditing), for: .editingDidEnd)
         
         nameTextField.delegate = self
         surnameTextField.delegate = self
-        
-        configureTextFields()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
     }
     
     func setupUI() {
@@ -88,16 +95,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         confirmPasswordTextField.setPlaceholder(text: "Confirm Password", isMandatory: true)
         confirmPasswordTextField.isSecureTextEntry = true
         
-        // Configuração dos campos de texto e do botão de registro
-        nameTextField.delegate = self
-        surnameTextField.delegate = self
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        confirmPasswordTextField.delegate = self
-        
+        // Configuração do botão de registro
         registerButton.setTitle("Register", for: [])
-        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         registerButton.translatesAutoresizingMaskIntoConstraints = false
+        //registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         registerButton.configuration = .filled()
         registerButton.configuration?.imagePadding = 8
         registerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
@@ -106,7 +107,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         
         
         // Adicione os subviews e configure as constraints
-        let stackView = UIStackView(arrangedSubviews: [nameTextField, surnameTextField, emailTextField, passwordTextField, confirmPasswordTextField, registerButton])
+        let stackView = UIStackView(arrangedSubviews: [nameTextField, nameErrorLabel, surnameTextField, surnameErrorLabel, emailTextField, emailErrorLabel, passwordTextField, passwordErrorLabel, confirmPasswordTextField, confirmPasswordErrorLabel, registerButton])
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -118,14 +119,14 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         
         
         NSLayoutConstraint.activate([
-                titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-                titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-               ])
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
         
         NSLayoutConstraint.activate([
             subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             subTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-               ])
+        ])
         
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -134,65 +135,66 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
         
-        confirmPasswordTextField.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -30).isActive = true
-        dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
     func validateName(_ name: String) -> Bool {
-            return name.count <= maxNameLength
-        }
-
-        func validateSurname(_ surname: String) -> Bool {
-            return surname.count <= maxSurnameLength
-        }
-
-        func validateEmail(_ email: String) -> Bool {
-            let emailRegEx = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-            return emailTest.evaluate(with: email.lowercased())
-        }
+        return name.count <= maxNameLength
+    }
+    
+    func validateSurname(_ surname: String) -> Bool {
+        return surname.count <= maxSurnameLength
+    }
+    
+    func validateEmail(_ email: String) -> Bool {
+        let emailRegEx = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: email.lowercased())
+    }
     
     @objc func emailTextFieldDidEndEditing(_ textField: UITextField) {
-           textField.text = textField.text?.lowercased()
-       }
-
-        func validatePassword(_ password: String) -> Bool {
-            let passwordRegEx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-            let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
-            return passwordTest.evaluate(with: password)
-        }
-
-        func validateConfirmPassword(_ password: String, _ confirmPassword: String) -> Bool {
-            return password == confirmPassword
-        }
+        textField.text = textField.text?.lowercased()
+    }
+    
+    func validatePassword(_ password: String) -> Bool {
+        let passwordRegEx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
+        return passwordTest.evaluate(with: password)
+    }
+    
+    func validateConfirmPassword(_ password: String, _ confirmPassword: String) -> Bool {
+        return password == confirmPassword
+    }
     
     func configureTextFields() {
-            nameTextField.setPlaceholder(text: "Name", isMandatory: true)
-            surnameTextField.setPlaceholder(text: "Surname", isMandatory: true)
-            emailTextField.setPlaceholder(text: "Email", isMandatory: true)
-            passwordTextField.setPlaceholder(text: "Password", isMandatory: true)
-            confirmPasswordTextField.setPlaceholder(text: "Confirm Password", isMandatory: true)
-        }
+        nameTextField.setPlaceholder(text: "Name", isMandatory: true)
+        surnameTextField.setPlaceholder(text: "Surname", isMandatory: true)
+        emailTextField.setPlaceholder(text: "Email", isMandatory: true)
+        passwordTextField.setPlaceholder(text: "Password", isMandatory: true)
+        confirmPasswordTextField.setPlaceholder(text: "Confirm Password", isMandatory: true)
+    }
     
     func configureErrorLabels() {
-            let errorLabels = [nameErrorLabel, surnameErrorLabel, emailErrorLabel, passwordErrorLabel, confirmPasswordErrorLabel]
-            errorLabels.forEach { label in
-                label.textColor = .red
-                label.font = UIFont.systemFont(ofSize: 12)
-                label.numberOfLines = 0
-                label.translatesAutoresizingMaskIntoConstraints = false
-            }
+        let errorLabels = [nameErrorLabel, surnameErrorLabel, emailErrorLabel, passwordErrorLabel, confirmPasswordErrorLabel]
+        errorLabels.forEach { label in
+            label.textColor = .red
+            label.font = UIFont.systemFont(ofSize: 12)
+            label.numberOfLines = 0
+            label.isHidden = true
         }
+    }
     
-    @objc func registerButtonTapped() {
+    @objc func registerButtonTapped(sender: UIButton) {
+        didRegister()
+    }
+        
+    private func didRegister() {
         var isValid = true
-
-        guard let name = nameTextField.text else { return }
-        guard let surname = surnameTextField.text else { return }
-        guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
-        guard let confirmPassword = confirmPasswordTextField.text else { return }
-
+        
+        guard let name = nameTextField.text, let surname = surnameTextField.text, let email = emailTextField.text, let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text else {
+            showAlert(message: "All fields are mandatory")
+            return
+        }
+        
         if !validateName(name) {
             nameErrorLabel.isHidden = false
             nameErrorLabel.text = "Name must be at most 15 characters"
@@ -200,7 +202,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         } else {
             nameErrorLabel.isHidden = true
         }
-
+        
         if !validateSurname(surname) {
             surnameErrorLabel.isHidden = false
             surnameErrorLabel.text = "Surname must be at most 30 characters"
@@ -208,7 +210,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         } else {
             surnameErrorLabel.isHidden = true
         }
-
+        
         if !validateEmail(email) {
             emailErrorLabel.isHidden = false
             emailErrorLabel.text = "Email format is incorrect"
@@ -216,7 +218,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         } else {
             emailErrorLabel.isHidden = true
         }
-
+        
         if !validatePassword(password) {
             passwordErrorLabel.isHidden = false
             passwordErrorLabel.text = "Password must be at least 8 characters, with at least one uppercase letter, one lowercase letter, one number, and one special character"
@@ -224,7 +226,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         } else {
             passwordErrorLabel.isHidden = true
         }
-
+        
         if !validateConfirmPassword(password, confirmPassword) {
             confirmPasswordErrorLabel.isHidden = false
             confirmPasswordErrorLabel.text = "Passwords do not match"
@@ -232,34 +234,41 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         } else {
             confirmPasswordErrorLabel.isHidden = true
         }
-
-            if isValid {
-                Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                    if let error = error {
-                        print("Error registering user: \(error.localizedDescription)")
-                    } else {
-                        print("User registered successfully!")
+        
+        if isValid {
+            Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                if let error = error {
+                    print("Error registering user: \(error.localizedDescription)")
+                } else {
+                    print("User registered successfully!")
+                    
+                    let alert = UIAlertController(title: nil, message: "User registered successfully!", preferredStyle: .alert)
+                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        alert.dismiss(animated: true, completion: nil)
+                        
+                        self.delegate?.didRegister()
                         clearFields()
+                        
                     }
+                }
                 
-                return
+            }
+            
+            func clearFields() {
+                nameTextField.text = ""
+                surnameTextField.text = ""
+                emailTextField.text = ""
+                passwordTextField.text = ""
+                confirmPasswordTextField.text = ""
+            }
+            
         }
         
-        func clearFields() {
-               nameTextField.text = ""
-               surnameTextField.text = ""
-               emailTextField.text = ""
-               passwordTextField.text = ""
-               confirmPasswordTextField.text = ""
-           }
-           
-//           func showAlert(message: String) {
-//               let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-//               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//               present(alert, animated: true, completion: nil)
-//           }
-        
-       
+        func showAlert(message: String) {
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -281,6 +290,3 @@ extension UITextField {
         self.attributedPlaceholder = attributedPlaceholder
     }
 }
-
-
-

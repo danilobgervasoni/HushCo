@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol MainViewControllerDelegate: AnyObject {
+    func didRegister()
+}
+
 class MainViewController: UIViewController {
+    
+    weak var delegate: MainViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
