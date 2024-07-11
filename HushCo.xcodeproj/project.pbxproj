@@ -23,6 +23,7 @@
 		7CED85802C2DDC3700B3CA3B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */; };
 		7CED85822C2E44D700B3CA3B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED85812C2E44D700B3CA3B /* MainViewController.swift */; };
 		7CF820A92C3715F2008A81AE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF820A82C3715F2008A81AE /* SplashViewController.swift */; };
+		7CFC628D2C3F68290046FBF4 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFC628C2C3F68290046FBF4 /* UserDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7CED85812C2E44D700B3CA3B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7CF820A82C3715F2008A81AE /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		7CFC628C2C3F68290046FBF4 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		DA0FF4D55538049C73CCA236 /* Pods-HushCo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HushCo.release.xcconfig"; path = "Target Support Files/Pods-HushCo/Pods-HushCo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				71A0F7C326FD2B75008EAFD8 /* AppDelegate.swift */,
-				7CED85812C2E44D700B3CA3B /* MainViewController.swift */,
+				7CFC62872C3F63FF0046FBF4 /* MainPage */,
 				7CF820A72C3715E7008A81AE /* Opening */,
 				71A0F7D926FD2C91008EAFD8 /* LoginView */,
 				7CED85692C2C8F8500B3CA3B /* Onboarding */,
@@ -152,8 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				7CED857B2C2CAB7B00B3CA3B /* RegistrationViewController.swift */,
-				7CED857D2C2CABD200B3CA3B /* Users.swift */,
-				7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */,
 			);
 			path = Registration;
 			sourceTree = "<group>";
@@ -164,6 +164,17 @@
 				7CF820A82C3715F2008A81AE /* SplashViewController.swift */,
 			);
 			path = Opening;
+			sourceTree = "<group>";
+		};
+		7CFC62872C3F63FF0046FBF4 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				7CED85812C2E44D700B3CA3B /* MainViewController.swift */,
+				7CED857D2C2CABD200B3CA3B /* Users.swift */,
+				7CED857F2C2DDC3700B3CA3B /* NetworkManager.swift */,
+				7CFC628C2C3F68290046FBF4 /* UserDetailViewController.swift */,
+			);
+			path = MainPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,7 +209,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					71A0F7BF26FD2B75008EAFD8 = {
 						CreatedOnToolsVersion = 13.0;
@@ -288,6 +299,7 @@
 			files = (
 				7CED85722C2C941C00B3CA3B /* DummyViewController.swift in Sources */,
 				7CED85822C2E44D700B3CA3B /* MainViewController.swift in Sources */,
+				7CFC628D2C3F68290046FBF4 /* UserDetailViewController.swift in Sources */,
 				7CED857E2C2CABD200B3CA3B /* Users.swift in Sources */,
 				7CF820A92C3715F2008A81AE /* SplashViewController.swift in Sources */,
 				7CED85802C2DDC3700B3CA3B /* NetworkManager.swift in Sources */,
@@ -352,6 +364,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -413,6 +426,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -439,6 +453,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HushCo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HushCo;
@@ -467,6 +482,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HushCo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HushCo;

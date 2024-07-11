@@ -6,10 +6,19 @@ target 'HushCo' do
   use_frameworks!
 
   # Pods for HushCo
-  Pod 'Firebase'
+  pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  
+  pod 'Alamofire', '~> 5.4'
+  
+  end
 
+post_install do |installer|
+  find_replace = "find ./Pods/Target\\ Support\\ Files/leveldb-library/ -type f -name '*.h' -exec sed -i '' 's/\"c.h\"/<c.h>/g' {} +"
+  system(find_replace)
 end
+
+

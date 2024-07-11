@@ -15,7 +15,9 @@ protocol RegistrationViewControllerDelegate: AnyObject {
 
 class RegistrationViewController: UIViewController, UITextFieldDelegate {
     
-    weak var delegate: RegistrationViewControllerDelegate?
+    weak var registrationDelegate: RegistrationViewControllerDelegate?
+    
+    let backButton = UIButton(type: .system)
     
     let nameTextField = UITextField()
     let nameErrorLabel = UILabel()
@@ -61,6 +63,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupUI() {
+        
+        
         
         // Configuração dos campos de texto
         nameTextField.backgroundColor = UIColor.systemGray6
@@ -186,7 +190,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
     @objc func registerButtonTapped(sender: UIButton) {
         didRegister()
     }
-        
+    
     private func didRegister() {
         var isValid = true
         
@@ -236,21 +240,34 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
         }
         
         if isValid {
+            let overlayView = UIView(frame: self.view.bounds)
+            overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5) // Opacidade de 50%
+            self.view.addSubview(overlayView)
+            
             Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
                 if let error = error {
                     print("Error registering user: \(error.localizedDescription)")
                 } else {
                     print("User registered successfully!")
                     
-                    let alert = UIAlertController(title: nil, message: "User registered successfully!", preferredStyle: .alert)
-                    self.present(alert, animated: true, completion: nil)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        alert.dismiss(animated: true, completion: nil)
-                        
-                        self.delegate?.didRegister()
-                        clearFields()
-                        
+                    let alert = UIAlertController(title: nil, message: "User registered successfully! Go back to login.", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+                        overlayView.removeFromSuperview()
                     }
+                    
+                    let mainVC = MainViewController()
+                    let navController = UINavigationController(rootViewController: mainVC)
+                    if let window = UIApplication.shared.keyWindow {
+                        window.rootViewController = navController
+                        window.makeKeyAndVisible()
+                        
+                        let loginViewController = LoginViewController()
+                        self.navigationController?.pushViewController(loginViewController, animated: true)
+                        
+                        alert.addAction(okAction)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    clearFields()
                 }
                 
             }
@@ -264,12 +281,12 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
             }
             
         }
-        
-        func showAlert(message: String) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
 }
 
@@ -290,3 +307,6 @@ extension UITextField {
         self.attributedPlaceholder = attributedPlaceholder
     }
 }
+
+
+
